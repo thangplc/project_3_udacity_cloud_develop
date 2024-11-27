@@ -1,0 +1,25 @@
+branches:
+  only:
+    - main
+language: node_js
+node_js:
+  - 12
+
+services:
+  - docker
+
+script:
+  ## Build docker
+  - docker-compose -f docker-compose-build.yaml build
+  ## Tagging
+  - docker tag udagram-api-feed thangplcdocker/udagram-api-feed:lastest
+  - docker tag udagram-api-user thangplcdocker/udagram-api-user:lastest
+  - docker tag udagram-frontend thangplcdocker/udagram-frontend:lastest
+  - docker tag udagram-reverseproxy thangplcdocker/reverseproxy:lastest
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  ## Push
+  - docker push thangplcdocker/udagram-api-feed
+  - docker push thangplcdocker/udagram-api-user
+  - docker push thangplcdocker/udagram-frontend
+  - docker push thangplcdocker/reverseproxy
