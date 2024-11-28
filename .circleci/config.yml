@@ -49,7 +49,7 @@
 
 version: 2.1
 executors:
-  my-custom-executor:
+  thangplc-executor-docker:
     docker:
       - image: cimg/base:stable
         auth:
@@ -59,7 +59,7 @@ executors:
           password: $DOCKER_HUB_PASSWORD
 jobs:
   build_push_udagram_api_feed:
-    executor: my-custom-executor-docker
+    executor: thangplc-executor-docker
     steps:
       - setup_remote_docker
       - checkout
@@ -68,7 +68,7 @@ jobs:
       - run: docker tag backend-feed thangplcdocker/udagram-api-feed
       - run: docker push thangplcdocker/udagram-api-feed
   build_push_udagram_api_user:
-    executor: my-custom-executor-docker
+    executor: thangplc-executor-docker
     steps:
       - setup_remote_docker
       - checkout
@@ -77,7 +77,7 @@ jobs:
       - run: docker tag backend-user thangplcdocker/udagram-api-user
       - run: docker push thangplcdocker/udagram-api-user
   build_push_udagram_frontend:
-    executor: my-custom-executor-docker
+    executor: thangplc-executor-docker
     steps:
       - setup_remote_docker
       - checkout
@@ -86,7 +86,7 @@ jobs:
       - run: docker tag backend-user thangplcdocker/udagram-frontend
       - run: docker push thangplcdocker/udagram-frontend
   build_push_reverseproxy:
-    executor: my-custom-executor-docker
+    executor: thangplc-executor-docker
     steps:
       - setup_remote_docker
       - checkout
@@ -96,7 +96,7 @@ jobs:
       - run: docker push thangplcdocker/reverseproxy
 
 workflows:
-  my-custom-workflow:
+  thangplc-workflow:
     jobs:
       - build_push_udagram_api_feed
       - build_push_udagram_api_user
