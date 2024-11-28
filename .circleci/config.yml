@@ -59,9 +59,9 @@ executors:
           password: $DOCKER_HUB_PASSWORD
 jobs:
   build_push_udagram_api_feed:
-    environment:
-      DOCKERHUB_PASSWORD: Okta55555555
-      DOCKERHUB_USERNAME: thangplcdocker
+    # environment:
+    #   DOCKERHUB_PASSWORD: Okta55555555
+    #   DOCKERHUB_USERNAME: thangplcdocker
     executor: my-custom-executor
     steps:
       - setup_remote_docker
