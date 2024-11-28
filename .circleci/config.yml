@@ -8,38 +8,38 @@ jobs:
                   username: $DOCKERHUB_USERNAME
                   password: $DOCKERHUB_PASSWORD
         steps:
-            - checkout
-            - setup_remote_docker
-            - restore_cache:
-                  keys:
-                      - v2-{{ .Branch }}
-                  paths:
-                      - /caches/app.tar
-            - run:
-                  name: Load Docker image layer cache
-                  command: |
-                      set +o pipefail
-                      docker load -i /caches/app.tar | true
-            - run:
-                  name: Build and Push application Docker image
-                  command: |
-                      TAG=latest
+          - checkout
+          - setup_remote_docker
+          - run:
+              name: Debug Environment Variables
+              command: |
+                echo "DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME"
+                echo "TAG=$TAG"
+          - run:
+              name: Build and Push application Docker image
+              command: |
+                TAG=${TAG:-latest}
 
-                      docker build --cache-from=$DOCKERHUB_USERNAME/udagram-api-feed:$TAG -t $DOCKERHUB_USERNAME/udagram-api-feed:$TAG ./udagram-api-feed
-                      echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-                      docker push $DOCKERHUB_USERNAME/udagram-api-feed:$TAG
+                if [ -z "$DOCKERHUB_USERNAME" ]; then
+                  echo "DOCKERHUB_USERNAME is not set!"
+                  exit 1
+                fi
 
-                      docker build --cache-from=$DOCKERHUB_USERNAME/udagram-api-user:$TAG -t $DOCKERHUB_USERNAME/udagram-api-user:$TAG ./udagram-api-user
-                      echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-                      docker push $DOCKERHUB_USERNAME/udagram-api-user:$TAG
+                docker build --cache-from=$DOCKERHUB_USERNAME/udagram-api-feed:$TAG -t $DOCKERHUB_USERNAME/udagram-api-feed:$TAG ./udagram-api-feed
+                echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                docker push $DOCKERHUB_USERNAME/udagram-api-feed:$TAG
 
-                      docker build --cache-from=$DOCKERHUB_USERNAME/udagram-frontend:$TAG -t $DOCKERHUB_USERNAME/udagram-frontend:$TAG ./udagram-frontend
-                      echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-                      docker push $DOCKERHUB_USERNAME/udagram-frontend:$TAG
+                docker build --cache-from=$DOCKERHUB_USERNAME/udagram-api-user:$TAG -t $DOCKERHUB_USERNAME/udagram-api-user:$TAG ./udagram-api-user
+                echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                docker push $DOCKERHUB_USERNAME/udagram-api-user:$TAG
 
-                      docker build --cache-from=$DOCKERHUB_USERNAME/reverseproxy:$TAG -t $DOCKERHUB_USERNAME/reverseproxy:$TAG ./reverseproxy
-                      echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-                      docker push $DOCKERHUB_USERNAME/reverseproxy:$TAG
+                docker build --cache-from=$DOCKERHUB_USERNAME/udagram-frontend:$TAG -t $DOCKERHUB_USERNAME/udagram-frontend:$TAG ./udagram-frontend
+                echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                docker push $DOCKERHUB_USERNAME/udagram-frontend:$TAG
+
+                docker build --cache-from=$DOCKERHUB_USERNAME/reverseproxy:$TAG -t $DOCKERHUB_USERNAME/reverseproxy:$TAG ./reverseproxy
+                echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                docker push $DOCKERHUB_USERNAME/reverseproxy:$TAG
 
 workflows:
     deploy:
