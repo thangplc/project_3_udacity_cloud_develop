@@ -12,10 +12,10 @@ script:
   ## Build docker
   - docker-compose -f docker-compose-build.yaml build
   ## Tagging
-  - docker tag udagram-api-feed thangplcdocker/udagram-api-feed:lastest
-  - docker tag udagram-api-user thangplcdocker/udagram-api-user:lastest
-  - docker tag udagram-frontend thangplcdocker/udagram-frontend:lastest
-  - docker tag udagram-reverseproxy thangplcdocker/reverseproxy:lastest
+  - docker tag udagram-api-feed thangplcdocker/udagram-api-feed:latest
+  - docker tag udagram-api-user thangplcdocker/udagram-api-user:latest
+  - docker tag udagram-frontend thangplcdocker/udagram-frontend:latest
+  - docker tag reverseproxy thangplcdocker/reverseproxy:latest
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   ## Push
