@@ -21,7 +21,7 @@ jobs:
                 TAG=${TAG:-latest}
 
                 if [ -z "$DOCKERHUB_USERNAME" ]; then
-                  echo "DOCKERHUB_USERNAME is not set!"
+                  echo "DOCKERHUB_USERNAME is not set!" 
                   exit 1
                 fi
 
