@@ -44,6 +44,6 @@ workflows:
       - build-and-push-image-api-feed
       - build-and-push-image-api-user
       - build-and-push-image-api-frontend
-      - build-and-push-image-api-reverseproxy
+      - build-and-push-image-api-reverseproxy 
 
 
