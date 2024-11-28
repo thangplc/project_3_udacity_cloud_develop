@@ -7,7 +7,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: 'docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD'
+      - run: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
       - run: docker build -t backend-feed ./udagram-api-feed
       - run: docker tag backend-feed thangplcdocker/udagram-api-feed
       - run: docker push thangplcdocker/udagram-api-feed
@@ -16,7 +16,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: 'docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD'
+      - run: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
       - run: docker build -t backend-user ./udagram-api-user
       - run: docker tag backend-user thangplcdocker/udagram-api-user
       - run: docker push thangplcdocker/udagram-api-user
@@ -25,7 +25,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: 'docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD'
+      - run: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
       - run: docker build -t frontend ./udagram-frontend
       - run: docker tag frontend thangplcdocker/udagram-frontend
       - run: docker push thangplcdocker/udagram-frontend
@@ -34,7 +34,7 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: 'docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD'
+      - run: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
       - run: docker build -t reverseproxy ./reverseproxy
       - run: docker tag reverseproxy thangplcdocker/reverseproxy
       - run: docker push thangplcdocker/reverseproxy
