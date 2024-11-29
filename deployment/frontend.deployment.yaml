@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: udagram-frontend
+          image: "thangplcdocker/udagram-frontend"
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+          envFrom:
+            - secretRef:
+                name: env-secret
+            - secretRef:
+                name: aws-secret
+            - configMapRef:
+                name: aws-configmap
+          volumeMounts:
+            - mountPath: "/root/.aws/"
+              name: aws-secret
+              readOnly: true
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret
+
+
+
+
+
+            
