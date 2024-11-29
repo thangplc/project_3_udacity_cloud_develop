@@ -18,7 +18,7 @@ spec:
         - name: reverseproxy
           image: "thangplcdocker/reverseproxy"
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           imagePullPolicy: Always
           resources:
             requests:

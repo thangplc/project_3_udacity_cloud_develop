@@ -1,3 +1,17 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: frontend
+#   labels:
+#     run: frontend
+# spec:
+#   ports:
+#     - port: 80
+#       targetPort: 80
+#       protocol: TCP
+#   selector:
+#     app: frontend
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,8 +20,11 @@ metadata:
     run: frontend
 spec:
   ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
+  - name: "8100"
+    port: 8100
+    targetPort: 80
   selector:
-    app: frontend
+    run: frontend
+#  type: LoadBalancer    
+
+
